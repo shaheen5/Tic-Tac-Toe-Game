@@ -39,7 +39,7 @@ public class TicTacToeGame {
 	
 	//Select the index from 1 to 9 to make the move.
 	private static int getIndex(Scanner userInput) {
-		System.out.println("Enter index position:-");
+		System.out.print("Enter index position:-");
 		int index=userInput.nextInt();
 		while(!(index>0 && index <10)) {
 			System.out.println("Invalid Input!");
@@ -56,6 +56,11 @@ public class TicTacToeGame {
 		else
 			return false;
 	}
+	 //Check if the free space is available for the move. In case available make the move
+	private static void makeMove(int index,char letter) {
+		if(isEmptyIndexPosition(index))
+			board[index]=letter;
+	}
 	
 	public static void main(String[] args) {
 		System.out.println("Welcome to Tic-Tac-Toe Game !!!");
@@ -69,9 +74,10 @@ public class TicTacToeGame {
 		char computerLetter=( playerLetter=='X')?'O': 'X' ;
 		System.out.println("\n*********** Welcome to 3x3 Tic Tac Toe.**********");
 		showBoard();
-		int index=getIndex(userInput);
-		if(isEmptyIndexPosition(index))
-			board[index]=playerLetter;
-		showBoard();
+		for(int i=1;i<=9;i++) {
+		    int index=getIndex(userInput);
+		    makeMove(index,playerLetter);
+			showBoard();		
+		}
 	}
 }
