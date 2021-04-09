@@ -5,6 +5,9 @@ import java.util.Scanner;
 public class TicTacToeGame {
 	//declare & allocate memory to character array of size 10
 	static char[]board = new char[10];
+	//static constants
+	static final int  HEADS=0;
+	static final int TAILS=1;
 	
 	//initialize board to empty spaces
 	private static void createBoard() {
@@ -61,22 +64,44 @@ public class TicTacToeGame {
 		if(isEmptyIndexPosition(index))
 			board[index]=letter;
 	}
+	//toss using random method to find who plays first
+	private static int toss() {
+		return (int)(Math.random()*10)%2;
+	}
 	
 	public static void main(String[] args) {
 		System.out.println("Welcome to Tic-Tac-Toe Game !!!");
 		createBoard();
 		Scanner userInput=new Scanner(System.in);
+		System.out.print("Enter Player Name :-");
+		String playerName=userInput.nextLine();
 		char playerLetter=getPlayerLetter(userInput);
 		while(playerLetter!='X'&& playerLetter!='O') {
 			System.out.println("Invalid Input ! Choose Either 'X' or 'O':-");
 			playerLetter=getPlayerLetter(userInput);
 		}
 		char computerLetter=( playerLetter=='X')?'O': 'X' ;
+		char turn =' ';
 		System.out.println("\n*********** Welcome to 3x3 Tic Tac Toe.**********");
 		showBoard();
+		System.out.println(playerName+"'s Letter :-"+playerLetter);
+		System.out.println("Computer's Letter :-"+computerLetter+"\n");
+		int toss=toss();
+		switch(toss) {
+		case HEADS:System.out.println(playerName+" Won The Toss !");
+		           turn=playerLetter;
+				   break;
+		case TAILS:System.out.println("Computer Won The Toss !");
+		           turn=computerLetter;
+		           break;
+	    default:System.out.println("Some Error Occurred !");
+		}
+		
 		for(int i=1;i<=9;i++) {
+			System.out.println("\n******"+turn+"'s Turn*********");
 		    int index=getIndex(userInput);
-		    makeMove(index,playerLetter);
+		    makeMove(index,turn);
+		    turn=(turn==playerLetter)?computerLetter : playerLetter;
 			showBoard();		
 		}
 	}
